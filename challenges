@@ -1,0 +1,262 @@
+<!-- changed isCart to Cart items -->
+
+# Challenge 1: SPA setup
+Set up React Router for our app.
+Click Homepage logo to route us to slash route ("/"), This will should display photos component. Click Cart icon to send us to cart component.. slash cart route ("/cart")
+
+1. IN index.js install react router and import into the DOM by wrapping App component.
+2. IN App component, import cart and photo components.
+3. Import route(s) then route to cart and photos component.
+4. IN header component, Import Link and <Link> desired elements to correct path.
+
+# Challenge 2: Context setup
+Set up the Context for our app.
+
+1. Create a context file and import react
+2. Store your context in a variable (with the value of an empty string).
+3. In that same file, create a ContextProvider component that recieves props and renders your context provider with value of an empty string. that wraps around {props.children}
+4. Export the component and the full context object (so we can pass it to the useContext hook eventually)
+5. Import Context provider as an object into index.js, then wrap it as a parent of the Router component)
+
+
+# Challenge 3: Context State
+Add state to our context and pass it through the Provider
+
+
+1. In Context, import useState.
+2. Store an empty array in state (for array of all our photos from api)
+3. Give provider the value of our state as an object.
+
+# Challenge 4: Fetch API
+<!-- Review data fetching in React using `fetch`: 
+https://scrimba.com/p/p7P5Hd/c79Jask -->
+Get the JSON data with the photos information from the API and save it to context state
+
+1. useEffect to fetch api
+2. Reassign state to the data that comes back from api
+
+# Challenge 5: Display Images
+Using the data in context state, map over it in the Photos page and display the images.
+
+1. Create a component (Image) with a prop of className object. that returns an img component,
+ the div parent className will recive the prop AND image-container.
+2. the img component will have a blank src and classname of "image-grid" (comment out until we fill the source.)
+3. IN photo component. Import image component, context object, and getClass component.
+4. Get our provider array value from context
+4b. console log to peep data.
+5. map our array that returns parameter of img(individual img from array) and i(index of our image) and an Image component with ( <Image key={instances-id} img={instance} className={getClass(instances-index)} />
+).
+6. now render our variable as an object
+7. IN Image component, add img prop to function, and add src to img.
+8. add alt to our image
+
+# Challenge 6: track hover state
+On the Image component, track the hover state
+
+1. Create state boolean for "hovered"
+2. When the mouse enters the Image's div, set "hovered" to true
+3. When the mouse leaves the Image's div, set "hovered" to false
+4. Log "hovered" to the console so you know it's changing successfully.
+
+# Challenge 7: Render Icons on hover
+
+Conditionally render the heart and plus icons when an Image component is being hovered on
+
+1. Icon to render for the heart:
+<i className="ri-heart-line favorite"></i>
+
+2. Icon to render for the plus:
+<i className="ri-add-circle-line cart"></i>
+
+# Challenge 8: toggle isFavorite property
+
+Add ability to toggle an image's `isFavorite` property by clicking the heart icon (filled heart doesn't need to display on the image yet)
+
+1. IN context, create a function with our id as the parameter.
+2. create a variable that stores a new instance of our array. 
+3. if new instance and OG instance id's match up, then return ALL new instances properties, but flip our `isFavorite` property
+5. return new instance
+6. assign state value to our variable.
+4. pass toggle function through the provider
+5. IN images folder, import context and store in toggle object.
+6. Add on click event to heart image that runs toggle function on img based on id
+
+# Challenge 9: Display Favorited icon on click
+
+Make the image display the filled heart icon when it's favorited
+
+1. run a function that returns heart filled if img is favorite, or else if hovered just show regular heart.
+2. invoke function
+
+# Challenge 10: Typechecking
+
+Add propTypes to the Image component
+
+1. className should be a string
+2. img should be an object, specifically an object with `id`, `url`, and `isFavorite` properties
+    a. Hint: Specifying the properties of an object is called and object's "shape"
+
+https://reactjs.org/docs/typechecking-with-proptypes.html#proptypes
+
+# Challenge 11: Add images to cart 
+
+Setup context to manage items in an array called `cartItems`. This will be an array of image objects.
+
+1. Add the `cartItems` state to context. (Array)
+2. create a function that updates cart context
+3. IN images, create a function that shows img if hovered, and image if already in cart.
+4. IN context, add cart function inside images to provider.
+
+# Challenge 12: remove item from cart
+
+Make it so clicking the little shopping cart icon on the image removes the item from the cart
+
+1. create a removeItem function w/ id parameter in context.
+2. inside of our function, get access to our previous items and filter those items if item id and id dont match.
+3. add function to provider's value
+4. IN images component, import our remove item context
+5. add our new function to a onclick event of our filled cart image.
+
+# Challenge 13: Change cart icon to full icon when items are in it.
+
+Change the cart icon in the header to display the full cart icon if there are any items in the cart
+
+ITEMS IN CART className:
+"ri-shopping-cart-fill ri-fw ri-2x"
+
+CART IS EMPTY className:
+"ri-shopping-cart-line ri-fw ri-2x"
+1. import context into header file.
+2. store context in cartItems object
+3. create a variable to store our conditions,, if cartItems.length = 0 return image, if not return other image
+4. place variable as the beginning of our className since the endings are the same.
+
+# Challenge 14: Set up cart page
+1. IN cart page, bring in context, store context in cartItems.. consolelog
+2. create product file / component with parameter of item object that renders 
+2b.
+ <!-- <div className="cart-item">
+            <i className="ri-delete-bin-line"></i>
+            <img src={item.url} width="130px" />
+            <p>$5.99</p>
+        </div> -->
+3. import product component into cart page
+4. create a variable for mapped cart items and pass new instance that returns product component. 
+5. add key to product component and pass in item as prop
+6. render variable, below that, also render 
+6b. 
+    <!-- <p className="total-cost">Total: </p>
+    <div className="order-button">
+        <button>Place Order</button>
+    </div> -->
+
+# Challenge 15: remove items via trash can
+
+Make it so clicking the trash icon on the Cart page removes that item from the cart
+
+<!-- we already hae a remove from cart in our context!! this is what context does for us! nice!! -->
+1. IN products, import context and remove from cart context
+2. add event listener to trash can that runs remove from cart function with item id parameter
+
+# Challenge 16: Calculate cost & display
+
+Usually the item in the database will have it's own cost saved, but we're assuming every item we sell costs $5.99, so you can just hard code that cost in
+To very easily display the total cost in US dollars (or whatever currency you want), use the following:
+`<number>.toLocaleString("en-US", {style: "currency", currency: "USD"})`
+- can also google locLE STRING CURRENCIES
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString
+
+1. IN cart page, create a variable that stores price * cartItems.length
+2. create another variable that stores,
+2b. variable.toLocaleString("en-US", {style: "currency", currency: "USD"})
+3. render localestring's variable next to Total:
+
+# Challenge: 17 Let user place an order!
+
+Clicking the "Place Order" button should:
+1. Change the text to "Ordering..."
+2. Timeout for 3 seconds (to simulate an order being placed)
+3. Log "Order placed!" to the console
+<!-- IN cart, store button text in state, then create an event listener for the button that then runs a function,
+that changes state to "Ordering", then set a timeout for 3 seconds (console.log) then change button to "Order placed", set Timeout for 5 seconds and then set button text to "Place Order". -->
+4. Empty out the cart
+<!-- To empty cart, create an empty cart function in context that changes cart state to an empty array.
+    export the function
+    IN cart, import empty cart context, then invoke it in our place order function -->
+
+
+# Challenge 18: UX improvements
+
+1. Only render the "Place Order" button if there are items in the cart
+<!-- conditionally render "you have no items in cart or disable button" -->
+
+2. Change the trash icon to a filled-in trash icon when hovering over it
+Filled trash icon to use when hovering:
+<i className="ri-delete-bin-fill"></i>
+Empty trash icon to use when NOT hovering:
+<i className="ri-delete-bin-line"></i>
+<!-- // import state, and set it to false.
+// store our conditions & options in a variable
+// use variable as className
+// create events that run functions that change state to true ot false -->
+
+# Challenge 19: Create a custom hook for hover state. import and replace prev versions of our hover states
+
+1. Create a hooks folder
+2. create a hover component that keeps track of the hover state. default to false.
+3. create 2 functions that reassign state. 1 for on, 1 for off.
+4. Using useRef inside of a useEffect,
+add event listeners mouseOver and mouseLeave 
+(DOM events) to our ref.
+4b. clean up our effect by returning a function that removes event listeners.
+5. return state and reference
+
+6. Go to previous components that have our OG hover states and replace them by,
+6a. Import our custom hook.
+6b. store our custom hooks function inside of it's returned value.
+<!-- recieve state and ref by calling the function inside our hook -->
+6c. remove events and insert (ref as a prop)
+
+
+<!-- FIX, CHANGE NOTES THAT SAy store in stay to  -->
+keep track of X in state
+
+<!-- STUDY THIS -->
+1. Props.
+2. context.
+3. methods
+4. functions
+5. console.logs
+6. state
+7. useeffect
+8. useRef
+9. custom hooks
+
+<!-- ADD THIS FUNCTIONALITY -->
+!!SAVE ITEMS TO LOCAL STORAGE!!
+
+4. MY OWN API FOR INVENTORY DATA
+    https://graphql.org/
+
+1. ACCEPT PAYMENTS
+    https://developer.squareup.com/docs/web-payments/take-card-payment
+    https://developers.circle.com/developer/docs/getting-started-with-the-circle-payments-api
+    https://medium.com/nerd-for-tech/add-stripe-to-your-react-app-ed9bf23c93b7
+    https://stripe.com/docs/payments
+
+2. INVENTORY DATABASE
+    https://cloud.google.com/firestore
+
+3. USER AUTH
+    https://firebase.google.com/
+
+4. TWILIO
+    https://www.twilio.com/quest?utm_campaign=G_D_YT_TwilioQuest&utm_source=youtube&utm_medium=cpc&cq_plac=youtube.com&cq_net=ytv&cq_pos=&cq_med=&cq_plt=gp&gclid=EAIaIQobChMIhcru9p6R-wIV6I6QBB02LwVYEAEYASAAEgKXVvD_BwE
+
+5. MOBILIZE
+    https://www.youtube.com/watch?v=gvkqT_Uoahw
+    https://reactnative.dev/
+    https://expo.dev/
+
+    https://github.com/ReactNativeSchool
+    https://github.com/facebook/react-native
